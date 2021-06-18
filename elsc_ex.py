@@ -47,13 +47,21 @@ def showing_photos(writer):
             "start",
             size=[0.1, 0.1],
             pos=(0, -0.3),
-            color='red')
+            color='black')
         button.draw()
         text_screen1.draw()
         win.flip()
         while not button.isClicked:  # continue only if the button pressed
             continue
         time.sleep(0.2)  # giving the user some extra time
+        button = visual.ButtonStim(
+            win,
+            text='',
+            size=[0.05, 0.1],
+            pos=(0, 0))
+        button.draw()
+        win.flip()
+        time.sleep(0.2)
 
         for trial in range(NUM_TRIALS):
             random_category = random.choice(FOLDERS_CATEGORY)  # peeking randomly category
@@ -68,14 +76,15 @@ def showing_photos(writer):
             image.draw()
             win.flip()
             time.sleep(0.4)
-            button = visual.ButtonStim(
-                win,
-                text='',
-                size=[0.05, 0.1],
-                pos=(0, 0))
+            # button = visual.ButtonStim(
+            #     win,
+            #     text='',
+            #     size=[0.05, 0.1],
+            #     pos=(0, 0))
             button.draw()
             win.flip()
             key_list = event.getKeys(keyList=['space'], modifiers=False)
+            event.waitKeys(maxWait=1, timeStamped=True)
             if 'space' in key_list:  # checking if the user pressed 'space'
                 user_response = True  # True if he pressed
             else:
@@ -84,22 +93,14 @@ def showing_photos(writer):
                 correct_response = True  # True if yes
             else:
                 correct_response = False  # False if not
-            time.sleep(0.6)
+            # time.sleep(0.6)
             response_time = 0
             writer.writerow(
                 [block_number, target_category, trial_number, image_presented, random_category, STIMULUS_DURATION,
                  user_response, correct_response, response_time])
-            # with results_file:
-            #     writer = csv.writer(results_file)
-            #     writer.writerow(
-            #         [block_number, target_category, trial_number, image_presented, random_category, STIMULUS_DURATION,
-            #          user_response, correct_response, response_time])
             trial_number += 1
         trial_number = 0
         block_number += 1
-    # win.flip()
-    # time.sleep(0.4)
-
 
 if __name__ == '__main__':
     win = creating_window()
