@@ -1,0 +1,8 @@
+Welcome!
+In this experiment there is 4 parts
+In the beggining of each part you will see the name of the target categoty.
+For example : "cars"
+In each part there will be presented 40 images,
+After the image a fixation point is shown and you need to press the space key if the image was of the target category.
+If not, don't press any button.
+Press any button to start the experiment.

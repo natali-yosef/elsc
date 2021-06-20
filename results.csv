@@ -1,0 +1,21 @@
+block_number,target_category,trial_number,image_presented,present_ca_image,stimulus_duration,user_response,correct_response,response_time
+0,faces_scrambled,0,S_back_V42.bmp,cars scrambled,400,True,False,0.2592094000428915
+0,faces_scrambled,1,S_back_V20.bmp,cars scrambled,400,True,False,0.260104599990882
+0,faces_scrambled,2,S_back_54.bmp,faces scrambled,400,True,False,0.36936080001760274
+0,faces_scrambled,3,back_50.bmp,faces,400,True,False,0.2673878000350669
+0,faces_scrambled,4,S_back_61.bmp,faces scrambled,400,True,False,0.15502249996643513
+1,faces,0,S_back_V41.bmp,cars scrambled,400,False,False,0
+1,faces,1,S_back_V20.bmp,cars scrambled,400,False,False,0
+1,faces,2,S_back_56.bmp,faces scrambled,400,True,False,0.4539212999516167
+1,faces,3,back_V39.bmp,cars,400,True,False,0.20112330000847578
+1,faces,4,back_30.bmp,faces,400,True,True,0.22904669999843463
+2,cars_scrambled,0,back_61.bmp,faces,400,True,False,0.4296643999987282
+2,cars_scrambled,1,back_V19.bmp,cars,400,True,False,0.16691790003096685
+2,cars_scrambled,2,back_V34.bmp,cars,400,True,False,0.12466650002170354
+2,cars_scrambled,3,S_back_V32.bmp,cars scrambled,400,True,False,0.20911700004944578
+2,cars_scrambled,4,S_back_4.bmp,faces scrambled,400,True,False,0.3176994000095874
+3,cars,0,back_V28.bmp,cars,400,True,True,0.6753230000031181
+3,cars,1,S_back_10.bmp,faces scrambled,400,True,False,0.29812569997739047
+3,cars,2,S_back_V24.bmp,cars scrambled,400,True,False,0.4001983000198379
+3,cars,3,S_back_V30.bmp,cars scrambled,400,True,False,0.2515700999647379
+3,cars,4,back_37.bmp,faces,400,True,False,0.28979479998815805
