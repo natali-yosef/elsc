@@ -1,51 +1,56 @@
+# LAB EXPERIMENT WRITTEN BY NATALI YOSUPOV
+# DATE 20.06.2021
+
 import time
 import random
 import os
-
 import psychopy.clock
 from psychopy import visual
 import ctypes
 from psychopy import event
-from psychopy.hardware import keyboard
-from psychopy import core
 import csv
 
 
 BLOCKS_CATEGORY = ['faces', 'cars', 'cars_scrambled', 'faces_scrambled']
 FOLDERS_CATEGORY = ['faces', 'cars', 'faces scrambled', 'cars scrambled']
+DATA_TO_KNOW = ['block_number', 'target_category', 'trial_number', 'image_presented', 'present_ca_image',
+                     'stimulus_duration', 'user_response', 'correct_response', 'response_time']
 NUM_BLOCKS = 4
-# NUM_TRIALS = 40
-NUM_TRIALS = 5
-STIMULUS_DURATION = 400  # how long was the picture shown on screen in milliseconds
-
+NUM_TRIALS = 40
 PEEKED_PHOTOS = []
 
 
 def creating_window():
+
     # checking the sizes of the screen
-    user32 = ctypes.windll.user32
-    width, height = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
-    win = visual.Window((width, height))  # creating the window
+    user_screen = ctypes.windll.user32
+    width, height = user_screen.GetSystemMetrics(0), user_screen.GetSystemMetrics(1)
+
+    # creating the window
+    win = visual.Window((width, height))
     win.flip()
     time.sleep(0.2)
+
     return win
 
 
 def showing_photos(writer):
+
     block_number, trial_number = 0, 0
     prev_choice = None
     photo_dict = {}
+
     instruction_text = visual.TextStim(win, pos=(0, 0), text=INSTRUCTION_TEXT)  # handling with the instructions
     instruction_text.draw()
     win.flip()
-    event.waitKeys()  # wait for some button pressing
+
+    # wait for some button pressing
+    event.waitKeys()
 
     #  initialize the names of all the images to a dict
     for category_folder in FOLDERS_CATEGORY:
         photo_dict[category_folder] = [x for x in os.listdir(category_folder) if os.path.isfile(os.path.join(category_folder, x))]
 
-
-    # todo log onset time:when did we saw the picture on screen, offset time: time between last flip and new onset
     for block in range(NUM_BLOCKS):
         # peeking randomly category for block
         target_category = random.choice(BLOCKS_CATEGORY)
@@ -98,7 +103,7 @@ def showing_photos(writer):
                 PEEKED_PHOTOS.append(image_presented)
 
             else:  # if the trail category is not the target category
-                # choose randomly image
+                # choose random image
                 image_presented = random.choice(photo_dict[random_category])
 
             # update the prev category
@@ -109,16 +114,21 @@ def showing_photos(writer):
             # representing the image
             image = visual.ImageStim(win, random_category + "/" + image_presented, size=[0.6, 0.9])
             image.draw()
-            # stim_onset = win.flip()
-            win.flip()
+            image_onset = win.flip()
             time.sleep(0.4)
-            image_drop_time = fixation.draw()
-            # duration = stim_onset-image_drop_time
-            win.flip()
-            # key_list = event.getKeys(keyList=['space'], modifiers=False)
+
+            fixation.draw()
+            image_drop_time = win.flip()
+
+            # check the time the image was on the screen
+            duration = image_drop_time - image_onset
+
             pressed = event.waitKeys(maxWait=1, keyList=['space'], timeStamped=psychopy.clock.Clock())
-            time_to_sleep = 1-pressed[0][1] if pressed else 0
+
+            # making sure that the fixation point will stay for 1 second, and not less
+            time_to_sleep = (1-pressed[0][1]) if pressed else 0
             time.sleep(time_to_sleep)
+
             # checking if the user pressed 'space'
             if pressed is not None:
 
@@ -137,8 +147,9 @@ def showing_photos(writer):
                 correct_response = False  # False if not
             # time.sleep(0.6)
 
-            writer.writerow([block_number, target_category, trial_number, image_presented, random_category, STIMULUS_DURATION, user_response, correct_response, response_time])
+            writer.writerow([block_number, target_category, trial_number, image_presented, random_category, duration, user_response, correct_response, response_time])
             trial_number += 1
+
         trial_number = 0
         block_number += 1
 
@@ -151,8 +162,7 @@ if __name__ == '__main__':
     f = open("instructions.txt", "r")
     INSTRUCTION_TEXT = f.read()
 
-    writer.writerow(['block_number', 'target_category', 'trial_number', 'image_presented', 'present_ca_image',
-                     'stimulus_duration', 'user_response', 'correct_response', 'response_time'])
+    writer.writerow(DATA_TO_KNOW)
     showing_photos(writer)
     results_file.close()
     win.close()
